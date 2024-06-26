@@ -1,15 +1,18 @@
 package JacopoDeMaio.SpringWeb3.services;
 
 
+import JacopoDeMaio.SpringWeb3.entities.BlogPost;
+import JacopoDeMaio.SpringWeb3.repository.BlogPostRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+
 
 @Service
 public class BlogPostService {
+
+    @Autowired
+    private BlogPostRepository blogPostRepository;
 
 
 
@@ -21,12 +24,11 @@ public class BlogPostService {
 //    }
 //
 ////    metodo per creare un nuovo blog post
-//    public BlogPost saveBlogPost(BlogPost body){
-//        Random rndm = new Random();
-//        body.setId(rndm.nextInt(1,1000));
-//        this.blogPostList.add(body);
-//        return body;
-//    }
+    public BlogPost saveBlogPost(BlogPost body){
+
+        blogPostRepository.save(body);
+        return body;
+    }
 //
 ////    metodo per tornare unb singolo elemento tramite id
 //    public BlogPost findById(long blogPostId){

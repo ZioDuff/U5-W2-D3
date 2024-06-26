@@ -3,6 +3,7 @@ package JacopoDeMaio.SpringWeb3.services;
 
 import JacopoDeMaio.SpringWeb3.entities.Autore;
 import JacopoDeMaio.SpringWeb3.exceptions.BadRequestException;
+import JacopoDeMaio.SpringWeb3.exceptions.NotFoundException;
 import JacopoDeMaio.SpringWeb3.repository.AutoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,10 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class AutoreService {
@@ -46,37 +44,29 @@ public class AutoreService {
     }
 //
 ////    metodo GET singolo elemento
-    public Autore findAutoreById(long autoreId){
-        Autore found = null;
-        for (Autore autore: this.autoreList){
-            if (autore.getId()==autoreId) found=autore;
-        }
-        if (found==null) throw new NotFoundException(autoreId);
-        else return found;
+    public Autore findAutoreById(UUID autoreId){
+        Autore found =autoreRepository.findById(autoreId).orElseThrow(()->new NotFoundException(autoreId));
+        return found;
     }
 //
-////    metodo PATCH per le modifiche diverso da PUT
-//    public Autore findAutoreByIdAndUpdate(long autoreId, Autore body){
-//        Autore found = null;
-//        for (Autore autore: this.autoreList){
-//            if (autore.getId()==autoreId) {
-//            found=autore;
-//                found.setNome(body.getNome());
-//                found.setCognome(body.getCognome());
-//                found.setDataDiNascita(body.getDataDiNascita());
-//            }
-//        }
-//        if (found==null) throw new NotFoundException(autoreId);
-//        else return found;
-//    }
-//
+////    metodo PUT per le modifiche
+    public Autore findAutoreByIdAndUpdate(UUID autoreId, Autore body){
+        Autore found = autoreRepository.findById(autoreId).orElseThrow(()->new NotFoundException(autoreId));
+        found.setNome(body.getNome());
+        found.setCognome(body.getCognome());
+        found.setEmail(body.getEmail());
+        found.setDataDiNascita(body.getDataDiNascita());
+
+        return autoreRepository.save(found);
+
+    }
+
 ////    metodo DELETE
-//    public void findAutoreByIdAndDelete(long autoreId){
-//        Iterator<Autore> iterator = autoreList.iterator();
-//        while (iterator.hasNext()){
-//            Autore current = iterator.next();
-//            if (current.getId()== autoreId) iterator.remove();
-//
-//        }
-//    }
-}
+    public void findAutoreByIdAndDelete(UUID autoreId){
+        Autore found = autoreRepository.findById(autoreId).orElseThrow(()->new NotFoundException(autoreId));
+        autoreRepository.delete(found);
+
+
+        }
+    }
+

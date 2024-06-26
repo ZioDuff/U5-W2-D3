@@ -1,7 +1,9 @@
 package JacopoDeMaio.SpringWeb3.exceptions;
 
+import java.util.UUID;
+
 public class NotFoundException extends RuntimeException {
-    public NotFoundException(long id){
+    public NotFoundException(UUID id){
         super("Elemento con id " + id + " non trovato!");
     }
 }

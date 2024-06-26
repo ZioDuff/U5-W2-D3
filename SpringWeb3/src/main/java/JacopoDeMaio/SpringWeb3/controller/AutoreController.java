@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/autori")
@@ -28,19 +29,19 @@ public class AutoreController {
         return autoreService.saveAutore(body);
     }
 //
-//    @GetMapping("/{autoreId}")
-//    public Autore findAutoreById(@PathVariable long autoreId){
-//        return autoreService.findAutoreById(autoreId);
-//    }
+    @GetMapping("/{autoreId}")
+    public Autore findAutoreById(@PathVariable UUID autoreId){
+        return autoreService.findAutoreById(autoreId);
+    }
 //
-//    @PatchMapping("/{autoreId}")
-//    public Autore findAutoreByIdAndUpdate(@PathVariable long autoreId,@RequestBody Autore body){
-//        return autoreService.findAutoreByIdAndUpdate(autoreId,body);
-//    }
+    @PutMapping("/{autoreId}")
+    public Autore findAutoreByIdAndUpdate(@PathVariable UUID autoreId,@RequestBody Autore body){
+        return autoreService.findAutoreByIdAndUpdate(autoreId,body);
+    }
 //
-//    @DeleteMapping("/{autoreId}")
-//    public void findAutoreByIdAndDelete(@PathVariable long autoreId){
-//        autoreService.findAutoreByIdAndDelete(autoreId);
-//    }
+    @DeleteMapping("/{autoreId}")
+    public void findAutoreByIdAndDelete(@PathVariable UUID autoreId){
+        autoreService.findAutoreByIdAndDelete(autoreId);
+    }
 
 }
