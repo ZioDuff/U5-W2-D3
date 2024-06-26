@@ -4,6 +4,7 @@ package JacopoDeMaio.SpringWeb3.controller;
 import JacopoDeMaio.SpringWeb3.entities.Autore;
 import JacopoDeMaio.SpringWeb3.services.AutoreService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,15 +18,15 @@ public class AutoreController {
 
 //    METODI
 
-//    @GetMapping // <-- GET di tutta la lista
-//    public List<Autore> getAutoreList(){
-//        return  autoreService.getAutoreList();
-//    }
+    @GetMapping // <-- GET di tutta la lista
+    public Page<Autore> getAutoreList(@RequestParam(defaultValue = "0")int page,@RequestParam(defaultValue = "2")int size,@RequestParam(defaultValue = "id")String sortedBy){
+        return  autoreService.getAutoreList(page,size,sortedBy);
+    }
 //
-//    @PostMapping
-//    public Autore saveAutore(@RequestBody Autore body){
-//        return autoreService.saveAutore(body);
-//    }
+    @PostMapping
+    public Autore saveAutore(@RequestBody Autore body){
+        return autoreService.saveAutore(body);
+    }
 //
 //    @GetMapping("/{autoreId}")
 //    public Autore findAutoreById(@PathVariable long autoreId){

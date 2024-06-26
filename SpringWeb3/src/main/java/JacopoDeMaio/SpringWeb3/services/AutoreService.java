@@ -1,6 +1,14 @@
 package JacopoDeMaio.SpringWeb3.services;
 
 
+import JacopoDeMaio.SpringWeb3.entities.Autore;
+import JacopoDeMaio.SpringWeb3.exceptions.BadRequestException;
+import JacopoDeMaio.SpringWeb3.repository.AutoreRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,32 +19,41 @@ import java.util.Random;
 @Service
 public class AutoreService {
 
+    @Autowired
+    private AutoreRepository autoreRepository;
+
 
 //    METODI
 
 //    metodo getList
-//    public List<Autore> getAutoreList(){
-//        return autoreList;
-//    }
+    public Page<Autore> getAutoreList(int page, int size, String sorteBy){
+        if(size> 20) size = 20;
+        Pageable pageable = PageRequest.of(page,size, Sort.by(sorteBy));
+        return autoreRepository.findAll(pageable);
+    }
 //
-////    metodo save autore
-//    public Autore saveAutore(Autore body){
-//        Random rndm = new Random();
-//        body.setId(rndm.nextInt(1,1000));
-//        body.setAvatar("https://ui-avatars.com/api/?name="+ body.getNome()+ "+"+ body.getCognome());
-//        autoreList.add(body);
-//        return body;
-//    }
+//    metodo save autore
+    public Autore saveAutore(Autore body){
+        autoreRepository.findByEmail(body.getEmail()).ifPresent(
+                autore -> {
+                    throw new BadRequestException("Attenzione l'email: "+ body.getEmail() + " è gia in uso!");
+                }
+        );
+
+        body.setAvatar("https://ui-avatars.com/api/?name="+ body.getNome()+ "+"+ body.getCognome());
+        autoreRepository.save(body);
+        return body;
+    }
 //
 ////    metodo GET singolo elemento
-//    public Autore findAutoreById(long autoreId){
-//        Autore found = null;
-//        for (Autore autore: this.autoreList){
-//            if (autore.getId()==autoreId) found=autore;
-//        }
-//        if (found==null) throw new NotFoundException(autoreId);
-//        else return found;
-//    }
+    public Autore findAutoreById(long autoreId){
+        Autore found = null;
+        for (Autore autore: this.autoreList){
+            if (autore.getId()==autoreId) found=autore;
+        }
+        if (found==null) throw new NotFoundException(autoreId);
+        else return found;
+    }
 //
 ////    metodo PATCH per le modifiche diverso da PUT
 //    public Autore findAutoreByIdAndUpdate(long autoreId, Autore body){
