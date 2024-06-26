@@ -32,7 +32,7 @@ public class BlogPostController {
 ////    POST che serve per generare un singolo blogPost
     @PostMapping // <-- annotazione che viene intercettata durante una post
     @ResponseStatus(HttpStatus.CREATED) // <-- cambiamo il messaggio di status in questo caso 201
-    public BlogPostPayload saveBlogPost(@RequestBody BlogPostPayload body){ // <-- per poter generare una post abbiamo bisogno di un body questo viene settato grazie all'apposita annotazione nel parametro
+    public BlogPost saveBlogPost(@RequestBody BlogPostPayload body){ // <-- per poter generare una post abbiamo bisogno di un body questo viene settato grazie all'apposita annotazione nel parametro
         return this.blogPostService.saveBlogPost(body);
     }
 //

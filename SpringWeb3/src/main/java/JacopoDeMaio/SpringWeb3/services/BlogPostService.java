@@ -33,12 +33,14 @@ public class BlogPostService {
 //    }
 //
 ////    metodo per creare un nuovo blog post
-    public BlogPostPayload saveBlogPost(BlogPostPayload body){
+    public BlogPost saveBlogPost(BlogPostPayload body){
 
-        BlogPost newBlogPost= new BlogPost(body.getCategoria(), body.getTitolo(), body.getCover(), body.getContenuto(), body.getTempoDiLettura(),autoreService.findAutoreById(body.getAutoreId()));
+        Autore autore = autoreService.findAutoreById(body.getAutoreId());
 
-        blogPostRepository.save(newBlogPost);
-        return  body;
+        BlogPost newBlogPost= new BlogPost(body.getCategoria(), body.getTitolo(), body.getCover(), body.getContenuto(), body.getTempoDiLettura(),autore);
+
+
+        return   blogPostRepository.save(newBlogPost);
 
     }
 //

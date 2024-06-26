@@ -5,6 +5,7 @@ import JacopoDeMaio.SpringWeb3.entities.Autore;
 import JacopoDeMaio.SpringWeb3.services.AutoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -25,6 +26,7 @@ public class AutoreController {
     }
 //
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Autore saveAutore(@RequestBody Autore body){
         return autoreService.saveAutore(body);
     }
