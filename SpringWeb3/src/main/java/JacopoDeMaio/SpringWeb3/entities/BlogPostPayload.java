@@ -22,7 +22,7 @@ public class BlogPostPayload {
 
     private int tempoDiLettura;
 
-    private String autoreId;
+    private UUID autoreId;
 
 
 }

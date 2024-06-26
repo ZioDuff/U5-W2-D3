@@ -1,11 +1,17 @@
 package JacopoDeMaio.SpringWeb3.services;
 
 
+import JacopoDeMaio.SpringWeb3.entities.Autore;
 import JacopoDeMaio.SpringWeb3.entities.BlogPost;
+import JacopoDeMaio.SpringWeb3.entities.BlogPostPayload;
+import JacopoDeMaio.SpringWeb3.exceptions.NotFoundException;
+import JacopoDeMaio.SpringWeb3.repository.AutoreRepository;
 import JacopoDeMaio.SpringWeb3.repository.BlogPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+import java.util.UUID;
 
 
 @Service
@@ -13,6 +19,9 @@ public class BlogPostService {
 
     @Autowired
     private BlogPostRepository blogPostRepository;
+
+    @Autowired
+    private AutoreService autoreService;
 
 
 
@@ -24,10 +33,13 @@ public class BlogPostService {
 //    }
 //
 ////    metodo per creare un nuovo blog post
-    public BlogPost saveBlogPost(BlogPost body){
+    public BlogPostPayload saveBlogPost(BlogPostPayload body){
 
-        blogPostRepository.save(body);
-        return body;
+        BlogPost newBlogPost= new BlogPost(body.getCategoria(), body.getTitolo(), body.getCover(), body.getContenuto(), body.getTempoDiLettura(),autoreService.findAutoreById(body.getAutoreId()));
+
+        blogPostRepository.save(newBlogPost);
+        return  body;
+
     }
 //
 ////    metodo per tornare unb singolo elemento tramite id
